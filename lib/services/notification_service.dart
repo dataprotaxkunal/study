@@ -43,7 +43,7 @@ class NotificationService {
       playSound: true,
     ));
 
-    await ap?.requestPermission();
+    await ap?.requestNotificationsPermission();
     _initialized = true;
   }
 
