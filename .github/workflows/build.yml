@@ -22,6 +22,7 @@ jobs:
         run: |
           cp -rf lib/. app/lib/
           cp pubspec.yaml app/pubspec.yaml
+          cp -rf android/app/src/main/AndroidManifest.xml app/android/app/src/main/AndroidManifest.xml
       - name: Build
         run: |
           cd app
