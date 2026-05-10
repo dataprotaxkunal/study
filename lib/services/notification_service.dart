@@ -61,7 +61,8 @@ class NotificationService {
 
   static Future<void> sendTestNotification() async {
     await initialize();
-    await _plugin.show(99999, 'Notifications Working!', 'CMA Study Tracker notifications are active.',
+    await _plugin.show(99999, 'Notifications Working!',
+      'CMA Study Tracker notifications are active.',
       const NotificationDetails(android: AndroidNotificationDetails(
         'study_reminders', 'Study Reminders',
         importance: Importance.max, priority: Priority.max, playSound: true,
@@ -83,30 +84,41 @@ class NotificationService {
   static Future<void> scheduleDnd(String startTime, String endTime) async {
     await initialize(); await cancelDnd();
     final sp = startTime.split(':'); final ep = endTime.split(':');
-    final sH = int.tryParse(sp[0]) ?? 9; final sM = int.tryParse(sp.length > 1 ? sp[1] : '0') ?? 0;
-    final eH = int.tryParse(ep[0]) ?? 18; final eM = int.tryParse(ep.length > 1 ? ep[1] : '0') ?? 0;
+    final sH = int.tryParse(sp[0]) ?? 9;
+    final sM = int.tryParse(sp.length > 1 ? sp[1] : '0') ?? 0;
+    final eH = int.tryParse(ep[0]) ?? 18;
+    final eM = int.tryParse(ep.length > 1 ? ep[1] : '0') ?? 0;
     final now = DateTime.now();
     for (int i = 0; i < 30; i++) {
       final base = now.add(Duration(days: i));
       final startDt = DateTime(base.year, base.month, base.day, sH, sM);
-      if (startDt.isAfter(now)) await scheduleNotification(id: 90000+i, title: 'Focus Mode ON', body: 'Enable Do Not Disturb', scheduledDate: startDt);
+      if (startDt.isAfter(now)) await scheduleNotification(
+        id: 90000+i, title: 'Focus Mode ON',
+        body: 'Enable Do Not Disturb', scheduledDate: startDt);
       final endDt = DateTime(base.year, base.month, base.day, eH, eM);
-      if (endDt.isAfter(now)) await scheduleNotification(id: 91000+i, title: 'Focus Mode OFF', body: 'Study session ended. Disable DND.', scheduledDate: endDt);
+      if (endDt.isAfter(now)) await scheduleNotification(
+        id: 91000+i, title: 'Focus Mode OFF',
+        body: 'Study session ended. Disable DND.', scheduledDate: endDt);
     }
   }
 
   static Future<void> cancelNotification(int id) async {
-    for (int i = id * 1000; i < id * 1000 + 365; i++) await _plugin.cancel(i);
+    for (int i = id * 1000; i < id * 1000 + 365; i++) {
+      await _plugin.cancel(i);
+    }
   }
 
   static Future<void> cancelDnd() async {
-    for (int i = 0; i < 30; i++) { await _plugin.cancel(90000+i); await _plugin.cancel(91000+i); }
+    for (int i = 0; i < 30; i++) {
+      await _plugin.cancel(90000+i);
+      await _plugin.cancel(91000+i);
+    }
   }
 
   static Future<void> cancelAll() async => _plugin.cancelAll();
 
   static Future<void> requestExactAlarmPermission() async {
     await initialize();
-    await _android()?.requestNotificationsPermission();
+    await _android()?.requestExactAlarmsPermission();
   }
 }
