@@ -99,8 +99,8 @@ class AppProvider extends ChangeNotifier {
     chapters  = ch != null ? (jsonDecode(ch) as List).map((e) => Chapter.fromJson(e)).toList()      : _defaultChapters();
     sessions  = se != null ? (jsonDecode(se) as List).map((e) => StudySession.fromJson(e)).toList() : [];
     revisions = rv != null ? (jsonDecode(rv) as List).map((e) => Revision.fromJson(e)).toList()     : [];
-    _nextId     = chapters.isEmpty  ? 1 : chapters.map((c) => c.id).reduce((a,b) => a>b?a:b) + 1;
-    _nextSessId = sessions.isEmpty  ? 1 : sessions.map((s) => s.id).reduce((a,b) => a>b?a:b) + 1;
+    _nextId     = chapters.isEmpty  ? 1 : chapters.map((c)  => c.id).reduce((a,b) => a>b?a:b) + 1;
+    _nextSessId = sessions.isEmpty  ? 1 : sessions.map((s)  => s.id).reduce((a,b) => a>b?a:b) + 1;
     _nextRevId  = revisions.isEmpty ? 1 : revisions.map((r) => r.id).reduce((a,b) => a>b?a:b) + 1;
     notifyListeners();
   }
@@ -172,11 +172,7 @@ class AppProvider extends ChangeNotifier {
     if (c.id == -1) return;
     if (startDate != null) c.startDate = startDate;
     if (endDate   != null) c.endDate   = endDate;
-    if (studyTime != null) {
-      c.studyTime = studyTime;
-      NotificationService.cancelNotification(id);
-      _scheduleChapterNotification(c);
-    }
+    if (studyTime != null) { c.studyTime = studyTime; NotificationService.cancelNotification(id); _scheduleChapterNotification(c); }
     save(); notifyListeners();
   }
 

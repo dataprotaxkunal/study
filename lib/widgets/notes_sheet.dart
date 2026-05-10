@@ -250,7 +250,7 @@ class _QuickTag extends StatelessWidget {
       margin: const EdgeInsets.only(right: 8),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+        color: Theme.of(context).colorScheme.background,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.grey.shade300),
       ),
